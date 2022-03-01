@@ -99,3 +99,37 @@ expressApp.get("/manyfunctions", [handler1, handler2]);
 expressApp.listen(port, () => {
   console.log(`Example app listening on port ${port}`)
 })
+
+class x {
+  #pf = 0;
+
+  constructor(pf){
+    this.#pf = pf;
+
+  }
+  get pf(){
+    return this.#pf;
+
+  }
+}
+console.log("??");
+let xO = new x("data");
+console.log(xO.pf);
+
+
+class ClassWithPrivateAccessor {
+  #message;
+
+  get #decoratedMessage() {
+    return `🎬${this.#message}🛑`;
+  }
+  set #decoratedMessage(msg) {
+    this.#message = msg;
+  }
+
+  constructor() {
+    this.#decoratedMessage = 'hello world';
+    console.log(this.#decoratedMessage);
+  }
+}
+
