@@ -1,0 +1,31 @@
+/*
+What and for what we need configuration ?
+It's let us to manage in organized way general things that application needs, that depends on external condition like
+environment, and not the code itself.
+
+USE CASE -
+In development area you want to debug - this mean you want to show logs. At Production you don't want.
+
+From the docs - https://www.npmjs.com/package//config
+
+"Node-config organizes hierarchical configurations for your app deployments.
+
+It lets you define a set of default parameters,
+and extend them for different deployment environments (development, qa, staging, production, etc.).
+
+Configurations are stored in configuration files within your application, and can be overridden and extended by environment variables, command line parameters, or external sources.
+
+This gives your application a consistent configuration interface shared among a growing list of npm modules also using node-config.
+
+"
+
+https://blog.logrocket.com/creating-configuration-files-node-js-using-node-config/
+
+ */
+// https://www.npmjs.com/package/rc
+//https://stackoverflow.com/questions/36212256/what-are-rc-files-in-nodejs
+
+
+It's working only from the main file, by npm start, or directly to run file, from the root folder.
+
+U here - next, do a quick video about that...
