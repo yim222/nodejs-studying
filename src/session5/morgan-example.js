@@ -29,9 +29,9 @@ app.get('/no-morgan', function (req, res) {
 // });
 
 
-
-app.listen(3006, () => {
-    console.log(`Example app listening on port }`)
+let port = 3008;
+app.listen(port, () => {
+    console.log(`Example app listening on port ${port}`);
 })
 
 
