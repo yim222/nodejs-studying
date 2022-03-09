@@ -32,7 +32,10 @@ expressApp.post("/books", (req, res) => {
     booksMock.push(newItem);
     res.send("Post done successfully");
 })
-
+expressApp.get("/learnPathParameters/:varName", (req, res) => {
+    let string1 = req.params.varName;
+    res.send("In this way You can send params from the path (path params)... " + string1);
+});
 expressApp.put("/books/:id", (req, res) => {
 
     console.log("put request (Update) id = ", req.params.id);
