@@ -7,6 +7,8 @@ let startWebServices = async () => {
     //we need to use json middleware 
 
     app.use(express.json());
+    const uniqueValidator = require('mongoose-unique-validator');
+
 
     const port = 3005;
 
@@ -102,7 +104,9 @@ name: {
         email: {
             type: String,
             require: true,
-            minLength: 4
+            minLength: 4,
+            unique: true
+
             // maxLength
         },
         password: {
@@ -113,6 +117,7 @@ name: {
         },
         creator: mongoose.Schema.ObjectId
     });
+    userSchema.plugin(uniqueValidator);
     const UserMongo = mongoose.model('User', userSchema);
 
 
@@ -126,7 +131,7 @@ name: {
     app.post("/users", (req, res, next) => {
 
         let data = req.body;
-        let userInstance = new User(data.email, data.password);//
+        let userInstance = new User( data.password);//
 
 
         console.log(userInstance);
@@ -134,19 +139,31 @@ name: {
 
         let userDbConnection = new UserMongo(userInstance);
 
-        //U here - there is a problem with the validation here .
-        userDbConnection.save().then(() => {
-            console.log("user added successfully ", userInstance);
+        //U here - there is a problem with the validation here . - it's because u passed it as undefined, and that's the reason we
+        //need the joi validator.
+        // https://stackoverflow.com/questions/59066852/node-js-express-mongoose-schema-validation-not-working-fine
+        // userDbConnection.save().then(() => {
+        //     console.log("user added successfully ", userInstance);
+        // });
+
+        userDbConnection.save().then((res)=>{
+            res.send("user added successfully");
+        }).catch((err)=>{
+            console.error("error = \n", err);
+            res.send(err);
+            return;
+
+
         });
 
-        res.send("user added successfully");
+
     });
 
 
     //running:
 
     try {
-        let userInstance1 = new User("bbb23","33344");//
+        let userInstance1 = new User("bbb2345","33344");//
         let userDbConnection1 = new UserMongo(userInstance1);
         userDbConnection1.save().catch((err)=>{
             console.error("error = \n", err);
