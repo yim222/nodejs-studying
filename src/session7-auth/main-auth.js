@@ -26,8 +26,11 @@ ws();
 //that too: https://www.npmjs.com/package/joi --> For validate provided data vs, what we want.
 
 //Steps:
-//validation examples
-
+//validation examples - with joi validating the object
+//We need to make columns not null - but sound like it's not possible
+//https://www.tutorialspoint.com/get-all-the-column-names-in-a-table-in-mongodb#:~:text=In%20MongoDB%2C%20there%20is%20no,of%20documents%20to%20store%20items.
+//so we need to manually check it.
+//Joi - doc https://joi.dev/api/?v=17.6.0
 
 
 

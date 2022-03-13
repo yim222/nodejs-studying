@@ -1,13 +1,19 @@
 let startWebServices = async () => {
+    //Creating web services for my app
 
     console.log("Starting WS");
-    //Creating web services for my app
+
+    //imports
     const express = require("express");
+    const uniqueValidator = require('mongoose-unique-validator');
+    const joi = require("joi");
+
+
     const app = express();
     //we need to use json middleware 
 
     app.use(express.json());
-    const uniqueValidator = require('mongoose-unique-validator');
+
 
 
     const port = 3005;
@@ -58,15 +64,27 @@ let startWebServices = async () => {
     });
 
     app.post("/stocks", (req, res, next) => {
-        let isUserSignIn = false;
+        let isUserSignIn = true;
         if (!isUserSignIn) {
             res.send("User is not sign in");
             return;
 
 
         }
-        console.log("after send")
+
+
+
         let data = req.body;
+        console.log("validateStock(data)? ", validateStock(data))
+        //validating data :
+        // if (!validateStock(data)){
+        //     console.log("not proper object")
+        //     res.send("not proper object");
+        // }
+        let {error} = validateStock(data);
+        if (error !== undefined && error.details !== undefined) {
+            return res.status(400).send(error.details[0].message);
+        }
         let stockInstance2 = new Stock(data.sign, data.price, data.isUp);//
         console.log(stockInstance2);
 
@@ -176,6 +194,45 @@ name: {
 
 
 
+    function validateStock(stock) {
+        // const joiSchema = Joi.object({
+        //     name: Joi.string().min(4).max(50).required(),
+        //     price: Joi.number().min(1).required(),
+        //     color: Joi.string(),
+        //     image: Joi.string(),
+        // });//stockSchema
+        //stock schema isn't enough, we need to create a joi object:
+        // const joiSchema = joi.object(stockSchema);//won't work
+
+        //plain object = not with new
+       // https://stackoverflow.com/questions/52453407/the-difference-between-object-and-plain-object-in-javascript
+
+
+        /*
+        const stockSchema = new mongoose.Schema({
+        sign: String,
+        price: Number,
+        isUp: Boolean,
+        creator: mongoose.Schema.ObjectId
+    });
+         */
+        /*
+         const joiSchema = Joi.object({
+    name: Joi.string().min(4).max(50).required(),
+    price: Joi.number().min(1).required(),
+    color: Joi.string(),
+    image: Joi.string(),
+  });
+         */
+       let joiObject = {
+           sign: joi.string().required(),
+           price: joi.number().required(),
+           isUp: joi.boolean().required()
+       }
+        const joiSchema2 = joi.object(joiObject);
+
+        return joiSchema2.validate(stock);
+    }
 
 
 
