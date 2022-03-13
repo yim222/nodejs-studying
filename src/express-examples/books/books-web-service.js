@@ -1,5 +1,5 @@
-const mainObject = require("../../utils");
-// let generateIdLocally = utils;
+const mainObject = require("../../Session1/first-examples/utils");
+let generateIdLocally = mainObject;
 console.log("mainObject = ", mainObject);
 let generateIdLocal = mainObject.utils.generateId;
 let booksMock = [
