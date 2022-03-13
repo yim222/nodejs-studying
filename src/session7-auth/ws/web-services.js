@@ -15,7 +15,6 @@ let startWebServices = async () => {
     app.use(express.json());
 
 
-
     const port = 3005;
 
     //this make express listen to the calls to this localhost.
@@ -73,7 +72,6 @@ let startWebServices = async () => {
         }
 
 
-
         let data = req.body;
         console.log("validateStock(data)? ", validateStock(data))
         //validating data :
@@ -109,14 +107,15 @@ let startWebServices = async () => {
         this.email = email;
         this.password = password;
     }
-/*
-name: {
-    type: String,
-    require: true,
-    minlength: 4,
-    maxlength: 50,
-  },
- */
+
+    /*
+    name: {
+        type: String,
+        require: true,
+        minlength: 4,
+        maxlength: 50,
+      },
+     */
     //user schema:
     const userSchema = new mongoose.Schema({
         email: {
@@ -139,7 +138,7 @@ name: {
     const UserMongo = mongoose.model('User', userSchema);
 
 
-    app.get("/users", async (req,res, next)=>{
+    app.get("/users", async (req, res, next) => {
         let users = await UserMongo.find();
         res.send(users);
     });
@@ -149,7 +148,12 @@ name: {
     app.post("/users", (req, res, next) => {
 
         let data = req.body;
-        let userInstance = new User( data.password);//
+        if(!validateUser(data)){
+            res.send("not valid user");
+            return;
+        }
+        console.log(data)
+        let userInstance = new User(data.email, data.password);//
 
 
         console.log(userInstance);
@@ -164,9 +168,9 @@ name: {
         //     console.log("user added successfully ", userInstance);
         // });
 
-        userDbConnection.save().then((res)=>{
+        userDbConnection.save().then(() => {
             res.send("user added successfully");
-        }).catch((err)=>{
+        }).catch((err) => {
             console.error("error = \n", err);
             res.send(err);
             return;
@@ -181,17 +185,16 @@ name: {
     //running:
 
     try {
-        let userInstance1 = new User("bbb2345","33344");//
+        let userInstance1 = new User("bbb2345", "33344");//
         let userDbConnection1 = new UserMongo(userInstance1);
-        userDbConnection1.save().catch((err)=>{
+        userDbConnection1.save().catch((err) => {
             console.error("error = \n", err);
 
         });
-    }catch (err){
+    } catch (err) {
         console.error("error2 = \n", err);
 
     }
-
 
 
     function validateStock(stock) {
@@ -205,7 +208,7 @@ name: {
         // const joiSchema = joi.object(stockSchema);//won't work
 
         //plain object = not with new
-       // https://stackoverflow.com/questions/52453407/the-difference-between-object-and-plain-object-in-javascript
+        // https://stackoverflow.com/questions/52453407/the-difference-between-object-and-plain-object-in-javascript
 
 
         /*
@@ -224,17 +227,26 @@ name: {
     image: Joi.string(),
   });
          */
-       let joiObject = {
-           sign: joi.string().required(),
-           price: joi.number().required(),
-           isUp: joi.boolean().required()
-       }
+        let joiObject = {
+            sign: joi.string().required(),
+            price: joi.number().required(),
+            isUp: joi.boolean().required()
+        }
         const joiSchema2 = joi.object(joiObject);
 
         return joiSchema2.validate(stock);
     }
 
+    function validateUser(user){
+        let joiObject = {
+            email: joi.string().required(),
+            password: joi.string().required()
+        }
+        const joiSchema = joi.object(joiObject);
+        const validation = joiSchema.validate(user);
+        return validation.error === undefined;
 
+    }
 
 
 }
