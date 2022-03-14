@@ -25,6 +25,13 @@ ws();
 //eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MjJiMzdjOGEzNzM0YThhYjQ2OTE0N2EiLCJpYXQiOjE2NDcxNzEyMDV9.VrGKo00_eKngboXOn9RpesZcPolUSX4ppp8DG-40l0U
 //that too: https://www.npmjs.com/package/joi --> For validate provided data vs, what we want.
 
+
+//Mongoose - validate schema - this make blocking in the db connection level:
+//https://mongoosejs.com/docs/validation.html
+//https://www.npmjs.com/package/mongoose-unique-validator
+
+
+
 //Steps:
 //validation examples - with joi validating the object
 //We need to make columns not null - but sound like it's not possible
@@ -32,10 +39,16 @@ ws();
 //so we need to manually check it.
 //Joi - doc https://joi.dev/api/?v=17.6.0
 
+//U here - next:
+// make auth if the user fine,
+// make check to the auth in the add stock function.
+//then make the later.
+
 
 
 //TODO - Later
-//Make the request with user.
+//Make the request with user. (attach data to user, make it work with unique id
+//and in general understand the unique id concept
 //Make sign out, make expiring to the token
 
 
@@ -48,8 +61,8 @@ ws();
 //https://www.npmjs.com/package/joi-password-complexity
 //lodash - for what and how .
 
-//Mongoose - validate schema:
-//https://mongoosejs.com/docs/validation.html
-//https://www.npmjs.com/package/mongoose-unique-validator
+//if you have time - u can do it with the project... 
+//passover again on express, mongo, mongoose, and other doc, for understanding well.
+
 
 
