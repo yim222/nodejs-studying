@@ -1,3 +1,7 @@
+const {sign} = require("jsonwebtoken");
+const jwt = require("jsonwebtoken");
+
+
 let startWebServices = async () => {
     //Creating web services for my app
 
@@ -7,6 +11,7 @@ let startWebServices = async () => {
     const express = require("express");
     const uniqueValidator = require('mongoose-unique-validator');
     const joi = require("joi");
+    const jwt = require("jsonwebtoken");
 
 
     const app = express();
@@ -22,6 +27,8 @@ let startWebServices = async () => {
         console.log("This is authentication example " + port);
     });
 
+
+    //WEB SERVICES
     app.get("/", (req, res) => {
         res.send("WELCOME");
     });
@@ -63,13 +70,24 @@ let startWebServices = async () => {
     });
 
     app.post("/stocks", (req, res, next) => {
-        let isUserSignIn = true;
-        if (!isUserSignIn) {
-            res.send("User is not sign in");
-            return;
 
+        //handling all verification
+        // verify(req, res, next);
+        const token =  req.header("x-auth-token");//whatever you want
 
+        try {
+            jwt.verify(token, "currentUser");
+        }catch (e){
+            res.send("invalid user: \n" + e.toString())
         }
+
+        // let isUserSignIn = true;//to change
+        // if (!isUserSignIn) {
+        //     res.send("User is not sign in");
+        //     return;
+        //
+        //
+        // }
 
 
         let data = req.body;
@@ -148,7 +166,7 @@ let startWebServices = async () => {
     app.post("/users", (req, res, next) => {
 
         let data = req.body;
-        if(!validateUser(data)){
+        if (!validateUser(data)) {
             res.send("not valid user");
             return;
         }
@@ -237,7 +255,7 @@ let startWebServices = async () => {
         return joiSchema2.validate(stock);
     }
 
-    function validateUser(user){
+    function validateUser(user) {
         let joiObject = {
             email: joi.string().required(),
             password: joi.string().required()
@@ -249,9 +267,9 @@ let startWebServices = async () => {
     }
 
     //auth
-    app.post("/auth", async (req, res, next)=>{
+    app.post("/auth", async (req, res, next) => {
 
-        if(!validateUser(req.body)){
+        if (!validateUser(req.body)) {
             console.log("not valid user ");
             res.send("not valid user");
             return;//exit the function
@@ -270,13 +288,14 @@ let startWebServices = async () => {
         let validDetails = (user !== undefined && req.body.password === user.password);
 
 
-            // res.send(user.password ? user.password : "Not defined");
+        // res.send(user.password ? user.password : "Not defined");
         try {
-            if(validDetails){
-                res.send("User authenticated");
-
-            }
-            else throw ("Error... ");
+            if (validDetails) {
+                const token = getJwt(user);
+                res.send("User authenticated token = " + token);
+                console.log("User authenticated token = " , token)
+                return token;
+            } else throw ("Error... ");
         } catch (error) {
             console.error(error);
             res.send("Not valid details");
@@ -285,6 +304,69 @@ let startWebServices = async () => {
 
 
     });
+    //token:
+    //eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MjMxMDRkNThkZjIyNzMzMWRiMTcwNjQiLCJpYXQiOjE2NDczODM4NjN9.QTGjvvHNQUiCnMxV_svsg2pULVsneyPD1nxgNdOYnXU
+    //will throw error if token not defined in user
+    async function verify(req, res,  next){
+
+        //check the header
+        const token = await req.header("lingar-auth-token");//whatever you want
+
+        try {
+            // await verifyJwt(token);
+            let decoded = jwt.verify("token", "currentUser");
+            //No other action needed
+
+        }catch (err){
+            console.log("not verified")
+            // res.send("not verified");
+        }
+        finally {
+            next();
+        }
+        //will throw an error if the token isn't right .
+
+    }
+
+
+    //UTILs auth
+    //JWT - https://www.npmjs.com/package/jsonwebtoken
+    //sign
+    function getJwt(user) {
+        console.log("user...", user._id)
+        // jwt.sign({userId: user._id},  "secret generate jwt");
+        let token = jwt.sign({ _id: user._id }, "currentUser");
+        return token;
+
+    }
+
+    //verify
+    //If this throws an error, this is not verified
+    function verifyJwt(token) {
+        jwt.verify(token, "currentUser");//how to pass the object id with that .
+    }
+
+    var token = jwt.sign({ foo: 'bar2', userId: "my special id " }, 'shhhhh');
+    console.log("token = ", token)
+
+
+    // verify a token symmetric - synchronous
+    var decoded = jwt.verify(token, 'shhhhh');
+    console.log(decoded.foo, "user id = ", decoded.userId) // bar
+
+    let token2 = "abc"
+    try{
+        var decoded2 = jwt.verify(token2, 'shhhhh');
+        console.log("decoded 2 ")
+        console.log(decoded2.foo)
+    }catch (err){
+        console.log("decoded err ")
+
+        console.log(err)
+    }
+
+
+
 
 
 }

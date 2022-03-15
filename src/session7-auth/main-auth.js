@@ -45,9 +45,9 @@ ws();
 
 /*
 Little TODO
-create function ws for the auth,
-check the email and the password
-if it's correct assign special token to this user.
+create function ws for the auth, - done
+check the email and the password - done
+if it's correct assign special token to this user. we here
 
 make checking to this auth header, in the add stock function
 
