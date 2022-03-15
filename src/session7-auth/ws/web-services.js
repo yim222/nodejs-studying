@@ -248,6 +248,44 @@ let startWebServices = async () => {
 
     }
 
+    //auth
+    app.post("/auth", async (req, res, next)=>{
+
+        if(!validateUser(req.body)){
+            console.log("not valid user ");
+            res.send("not valid user");
+            return;//exit the function
+        }
+        let userDbConnection = new UserMongo();
+        // userDbConnection.find
+
+        let userQuery = UserMongo.findOne({email: req.body.email});
+        // Query hasn't been executed yet, so Mongoose hasn't casted the filter.
+        userQuery.getFilter();
+
+        const user = await userQuery.exec();
+        // doc.name; // "Jean-Luc Picard"
+        console.log("user = ", user);
+
+        let validDetails = (user !== undefined && req.body.password === user.password);
+
+
+            // res.send(user.password ? user.password : "Not defined");
+        try {
+            if(validDetails){
+                res.send("User authenticated");
+
+            }
+            else throw ("Error... ");
+        } catch (error) {
+            console.error(error);
+            res.send("Not valid details");
+
+        }
+
+
+    });
+
 
 }
 

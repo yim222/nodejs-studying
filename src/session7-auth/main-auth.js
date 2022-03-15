@@ -42,6 +42,16 @@ ws();
 //U here - next:
 // make auth if the user fine,
 // make check to the auth in the add stock function.
+
+/*
+Little TODO
+create function ws for the auth,
+check the email and the password
+if it's correct assign special token to this user.
+
+make checking to this auth header, in the add stock function
+
+ */
 //then make the later.
 
 
