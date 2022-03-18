@@ -73,12 +73,14 @@ let startWebServices = async () => {
 
         //handling all verification
         // verify(req, res, next);
-        const token =  req.header("x-auth-token");//whatever you want
+        const token =  req.header("lingar-auth-token");//whatever you want
 
         try {
             jwt.verify(token, "currentUser");
+            console.log("user ok")
         }catch (e){
-            res.send("invalid user: \n" + e.toString())
+            res.send("invalid user: \n" + e.toString());
+            return;
         }
 
         // let isUserSignIn = true;//to change

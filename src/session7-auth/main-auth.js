@@ -21,6 +21,22 @@ ws();
 //TODO - NOW
 //now, let's say that I want it to be authenticated. This means that only sign-in user will be able to add a stock.
 
+//TODO list
+// make auth if the user fine, - DONE
+// make check to the auth in the add stock function. - DONE
+//then make the later. - U here
+//Make the request with user. (attach data to user, make it work with unique id
+//and in general understand the unique id concept
+//Make sign out, make expiring to the token
+
+//Small TODO
+// Make the request with user:
+/*
+- U need first to get the unique id when you are sign-in.
+- Then you need to make the verification only when it's attached.
+ */
+
+
 //need to install : https://www.npmjs.com/package/jsonwebtoken -->For creating json web token object. For example:
 //eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MjJiMzdjOGEzNzM0YThhYjQ2OTE0N2EiLCJpYXQiOjE2NDcxNzEyMDV9.VrGKo00_eKngboXOn9RpesZcPolUSX4ppp8DG-40l0U
 //that too: https://www.npmjs.com/package/joi --> For validate provided data vs, what we want.
@@ -39,27 +55,9 @@ ws();
 //so we need to manually check it.
 //Joi - doc https://joi.dev/api/?v=17.6.0
 
-//U here - next:
-// make auth if the user fine,
-// make check to the auth in the add stock function.
-
-/*
-Little TODO
-create function ws for the auth, - done
-check the email and the password - done
-if it's correct assign special token to this user. we here
-
-make checking to this auth header, in the add stock function
-
- */
-//then make the later.
-
-
 
 //TODO - Later
-//Make the request with user. (attach data to user, make it work with unique id
-//and in general understand the unique id concept
-//Make sign out, make expiring to the token
+
 
 
 //we also need to install "cors" package, it's for later, when we'll run client side app from the localhost.
