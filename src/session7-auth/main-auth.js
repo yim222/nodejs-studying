@@ -33,7 +33,8 @@ ws();
 // Make the request with user:
 /*
 - U need first to get the unique id when you are sign-in.
-- Then you need to make the verification only when it's attached. - how it's working, how it's stay ok after I'm shtting down?
+- Then you need to make the verification only when it's attached. - how it's working, how it's stay ok after I'm shtting down? -didn't
+get it, try to make expiration then maybe you will understand.
  */
 
 
