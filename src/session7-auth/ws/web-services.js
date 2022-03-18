@@ -348,6 +348,18 @@ let startWebServices = async () => {
         jwt.verify(token, "currentUser");//how to pass the object id with that .
     }
 
+    //From the docs https://www.npmjs.com/package/jsonwebtoken
+    // To learn it:
+    //https://jwt.io/introduction
+    //search for: When should you use JSON Web Tokens?
+    //You can also make things with the private key pair./
+
+    /*
+    From my understanding key pair, is the like in the real world, you have a good lock, with two
+    keys that can opening it. So here it's the similar, you sign the jwt with some public/private key,
+    and in the next requests you need to assign it to the verification.
+
+     */
     var token = jwt.sign({ foo: 'bar2', userId: "my special id " }, 'shhhhh');
     console.log("token = ", token)
 
